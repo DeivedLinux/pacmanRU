@@ -32,35 +32,35 @@ ptrMap createMapFromFile(const unsigned char* name)
 	}
 
 	fscanf(inputFile,"%s",buffer);
-    width = atoi(buffer);
-    fscanf(inputFile,"%s",buffer);
-    height = atoi(buffer);
+    	width = atoi(buffer);
+   	fscanf(inputFile,"%s",buffer);
+   	height = atoi(buffer);
 
-    map->width = width;
-    map->height = height;
-    linesRead = height;
-    map->matrix = (int**)calloc(width,sizeof(int*));
-    if(map->matrix == NULL)
-    	return NULL;
-    for(i = 0; i < width; i++)
-    {
-    	map->matrix[i] = (int*)calloc(height,sizeof(int));
-    	if(map->matrix[i] == NULL)
+   	map->width = width;
+   	map->height = height;
+   	linesRead = height;
+   	map->matrix = (int**)calloc(width,sizeof(int*));
+    	if(map->matrix == NULL)
     		return NULL;
-    }
-    i = 0;
+   	for(i = 0; i < width; i++)
+   	{
+    		map->matrix[i] = (int*)calloc(height,sizeof(int));
+    		if(map->matrix[i] == NULL)
+    			return NULL;
+  	}
+   	i = 0;
 
-    while(linesRead > 0)
-    {
-    	linesRead--;
-    	for(j = 0; j < width; j++)
+    	while(linesRead > 0)
     	{
-    		fscanf(inputFile,"%s",buffer);
-    		temp = atoi(buffer);
-    		map->matrix[i][j] = temp;
-    	}	
-    	i++;
-    }
+    		linesRead--;
+    		for(j = 0; j < width; j++)
+    		{
+    			fscanf(inputFile,"%s",buffer);
+    			temp = atoi(buffer);
+    			map->matrix[i][j] = temp;
+    		}	
+    		i++;
+   	 }
 
 	fclose(inputFile);
 
