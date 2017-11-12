@@ -43,10 +43,10 @@ int main(int argc, char *argv[])
 
 		isRunning = run(NULL); // null por enquanto!
 
-    	SDL_UpdateWindowSurface(window);
+    		SDL_UpdateWindowSurface(window);
 
-    	if((1000u/getFPS()) > (SDL_GetTicks() - start))
-        	SDL_Delay((1000u/getFPS()) - (SDL_GetTicks() - start));
+    		if((1000u/getFPS()) > (SDL_GetTicks() - start))
+        		SDL_Delay((1000u/getFPS()) - (SDL_GetTicks() - start));
 	}
 
 	destroyMap(map);
