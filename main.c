@@ -11,7 +11,7 @@ int main(int argc, char *argv[])
 	ptrMap map;
 	SDL_Window* window = NULL;
 	bool isRunning = true;
-    unsigned long long start;
+    	unsigned long long start;
  
 
 	if(SDL_Init(SDL_INIT_VIDEO))
@@ -51,8 +51,8 @@ int main(int argc, char *argv[])
 
 	destroyMap(map);
 	SDL_FreeSurface(screenSurface);
-    SDL_DestroyWindow(window);
-    SDL_Quit();
+    	SDL_DestroyWindow(window);
+    	SDL_Quit();
 
 	return 0;
 }
