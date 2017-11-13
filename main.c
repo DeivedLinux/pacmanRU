@@ -11,7 +11,7 @@ int main(int argc, char *argv[])
 	ptrMap map = NULL;
 	SDL_Window* window = NULL;
 	bool isRunning = true;
-    unsigned long long start;
+    	unsigned long long start;
  
 
 	if(SDL_Init(SDL_INIT_VIDEO))
@@ -43,16 +43,16 @@ int main(int argc, char *argv[])
 
 		isRunning = run(NULL); // null por enquanto!
 
-    	SDL_UpdateWindowSurface(window);
+    		SDL_UpdateWindowSurface(window);
 
-    	if((1000u/getFPS()) > (SDL_GetTicks() - start))
-        	SDL_Delay((1000u/getFPS()) - (SDL_GetTicks() - start));
+    		if((1000u/getFPS()) > (SDL_GetTicks() - start))
+        		SDL_Delay((1000u/getFPS()) - (SDL_GetTicks() - start));
 	}
 
 	destroyMap(map);
 	SDL_FreeSurface(screenSurface);
-    SDL_DestroyWindow(window);
-    SDL_Quit();
+    	SDL_DestroyWindow(window);
+    	SDL_Quit();
 
 	return 0;
 }

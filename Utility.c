@@ -33,7 +33,8 @@ ptrMap createMapFromFile(const unsigned char* name)
 		return NULL;
 	}
 
-	fscanf(inputFile,"%s",buffer);
+	  fscanf(inputFile,"%s",buffer);
+
     row = atoi(buffer);
     fscanf(inputFile,"%s",buffer);
     column = atoi(buffer);
