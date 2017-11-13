@@ -3,7 +3,9 @@
 #include "Utility.h"
 #include <stdbool.h>
 
-#define MAX_WIDTH 1000
+
+
+
 
 ptrMap createMapFromFile(const unsigned char* name)
 {
@@ -11,12 +13,12 @@ ptrMap createMapFromFile(const unsigned char* name)
 	FILE* inputFile = NULL;
 	unsigned char *buffer;
 	unsigned i,j;
-	int width;
-	int height;
+	int column;
+	int row;
 	int linesRead;
 	int temp;
 
-	buffer = (unsigned char*)calloc(MAX_WIDTH,sizeof(char));
+	buffer = (unsigned char*)calloc(1000,sizeof(char));
 	if(buffer == NULL)
 		return NULL;
 
@@ -32,36 +34,33 @@ ptrMap createMapFromFile(const unsigned char* name)
 	}
 
 	fscanf(inputFile,"%s",buffer);
-    width = atoi(buffer);
+    row = atoi(buffer);
     fscanf(inputFile,"%s",buffer);
-    height = atoi(buffer);
+    column = atoi(buffer);
 
-    map->width = width;
-    map->height = height;
-    linesRead = height;
-    map->matrix = (int**)calloc(width,sizeof(int*));
+    map->column = column;
+    map->row = row;
+    linesRead = row;
+    map->matrix = (int**)calloc(row,sizeof(int*));
     if(map->matrix == NULL)
     	return NULL;
-    for(i = 0; i < width; i++)
+    for(i = 0; i < row; i++)
     {
-    	map->matrix[i] = (int*)calloc(height,sizeof(int));
+    	map->matrix[i] = (int*)calloc(column,sizeof(int));
     	if(map->matrix[i] == NULL)
     		return NULL;
     }
-    i = 0;
-
-    while(linesRead > 0)
+    
+    for(i = 0; i < row; i++)
     {
-    	linesRead--;
-    	for(j = 0; j < width; j++)
+    	for(j = 0; j < column; j++)
     	{
     		fscanf(inputFile,"%s",buffer);
     		temp = atoi(buffer);
     		map->matrix[i][j] = temp;
-    	}	
-    	i++;
+    	}
     }
-
+   
 	fclose(inputFile);
 
 	return map;
@@ -77,9 +76,9 @@ bool printMap(const ptrMap map)
 	if(map->matrix == NULL)
 		return false;
 
-	for(i = 0; i < map->width; i++)
+	for(i = 0; i < map->row; i++)
 	{
-		for(j = 0; j < map->height; j++)
+		for(j = 0; j < map->column; j++)
 		{
 			printf("%i ",map->matrix[i][j]);
 		}
@@ -94,7 +93,7 @@ bool destroyMap(ptrMap map)
 	if(map == NULL)
 		return false;
 
-	for(i = 0; i < map->width; i++)
+	for(i = 0; i < map->row; i++)
 		free(map->matrix[i]);
 
 	free(map->matrix);

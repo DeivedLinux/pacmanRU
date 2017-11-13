@@ -6,8 +6,8 @@
 typedef struct Map
 {
 	int** matrix;
-	int width;
-	int height;
+	int row;
+	int column;
 }*ptrMap;
 
 typedef struct Map Map;

@@ -3,8 +3,9 @@
 
 #include <stdbool.h>
 #include <SDL2/SDL.h>
+#include "Utility.h"
 
-void resizeScreen(int width, int height);
+void resizeScreen(ptrMap map);
 int getWidthMax(void);
 int getHeightMax(void);
 unsigned getFPS(void);

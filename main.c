@@ -8,7 +8,7 @@
 
 int main(int argc, char *argv[])
 {
-	ptrMap map;
+	ptrMap map = NULL;
 	SDL_Window* window = NULL;
 	bool isRunning = true;
     unsigned long long start;
@@ -33,9 +33,9 @@ int main(int argc, char *argv[])
 	}
 
 	map = createMapFromFile(argv[1]);
-	resizeScreen(map->width, map->height);
-
+	resizeScreen(map);
 	printMap(map);
+
 
 	while(isRunning)
 	{

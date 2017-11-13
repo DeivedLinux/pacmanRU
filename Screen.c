@@ -4,39 +4,39 @@
 
 #define minimum(x,y) x < y?x:y;
 
+#define WHITE SDL_MapRGB(screenSurface->format,0xFF,0xFF,0xFF)
+#define BLACK SDL_MapRGB(screenSurface->format,0x01,0x40,0x90)
+
 static const unsigned int SCREEN_WIDTH = 800;
-static const unsigned int SCREEN_HEIHT = 600;
+static const unsigned int SCREEN_HEIGHT = 600;
 SDL_Surface* screenSurface = NULL;
 static unsigned int FPS = 60;
 
-void resizeScreen(int width, int height)
+void resizeScreen(ptrMap map)
 {
 	SDL_Rect rects;
 	int rectSize;
 	unsigned i,j;
 	int dx,dy;
-	SDL_Surface* rgbBack = NULL;
+	
+	rectSize = minimum(SCREEN_WIDTH/map->column,SCREEN_HEIGHT/map->row);
 
-	rectSize = minimum(SCREEN_WIDTH/width,SCREEN_HEIHT/height);
-
-	dx = (SCREEN_WIDTH-rectSize*width)/2;
-	dy = (SCREEN_HEIHT-rectSize*height)/2;
+	dx = (SCREEN_WIDTH-rectSize*map->column)/2;
+	dy = (SCREEN_HEIGHT-rectSize*map->row)/2;
 
 	rects.x = dx;
 	rects.y = dy;
-	rects.w = dx+rectSize;
-	rects.h = dy+rectSize;
-	rgbBack = SDL_MapRGB(screenSurface->format,0x00,0x00,0x00);
-
-	for(i = 0; i < getWidthMax(); i++)
+	rects.w = rectSize - 1;
+	rects.h = rectSize - 1;
+	
+	for(i = 0; i < map->row; i++)
 	{
-		for(j = 0; j < getHeightMax(); j++)
+		for(j = 0; j < map->column; j++)
 		{
-			rects.x = i * rects.w;
-			rects.y = j * rects.h;
-			SDL_BlitSurface(rgbBack,NULL,screenSurface,&rects);
-			rects.w += rectSize;
-			rects.h += rectSize;
+			rects.x = j * rects.w + j + dx;
+			rects.y = i * rects.h + i + dy;
+			if(map->matrix[i][j] == 1)
+				SDL_FillRect(screenSurface, &rects,BLACK);
 		}
 	}
 }
@@ -48,7 +48,7 @@ int getWidthMax(void)
 
 int getHeightMax(void)
 {
-	return SCREEN_HEIHT;
+	return SCREEN_HEIGHT;
 }
 
 unsigned getFPS(void)

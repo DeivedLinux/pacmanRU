@@ -9,6 +9,7 @@
 bool run(void* parameters)
 {
 	SDL_Event event;
+	int quit = 0;
 
 	while(SDL_PollEvent(&event) != 0)
 	{
