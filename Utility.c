@@ -3,10 +3,6 @@
 #include "Utility.h"
 #include <stdbool.h>
 
-
-
-
-
 ptrMap createMapFromFile(const unsigned char* name)
 {
 	ptrMap map = NULL;

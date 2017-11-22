@@ -1,6 +1,7 @@
 #include "Screen.h"
 #include <SDL2/SDL.h>
 #include <stdbool.h>
+#include "Vector.h"
 
 #define minimum(x,y) x < y?x:y;
 
@@ -15,7 +16,6 @@ static unsigned int FPS = 60;
 void resizeScreen(ptrMap map)
 {
 	SDL_Rect rects;
-	int rectSize;
 	unsigned i,j;
 	int dx,dy;
 	
@@ -26,8 +26,8 @@ void resizeScreen(ptrMap map)
 
 	rects.x = dx;
 	rects.y = dy;
-	rects.w = rectSize - 1;
-	rects.h = rectSize - 1;
+	rects.w = rectSize;
+	rects.h = rectSize;
 	
 	for(i = 0; i < map->row; i++)
 	{
@@ -41,6 +41,15 @@ void resizeScreen(ptrMap map)
 	}
 }
 
+Vector2 getMapStartPos(ptrMap map){
+
+	Vector2 diff;
+	diff.c = (SCREEN_WIDTH-rectSize*map->column)/2;
+	diff.l = (SCREEN_HEIGHT-rectSize*map->row)/2;
+
+	return diff;
+}
+
 int getWidthMax(void)
 {
 	return SCREEN_WIDTH;
@@ -51,7 +60,13 @@ int getHeightMax(void)
 	return SCREEN_HEIGHT;
 }
 
+int getRectSize(ptrMap map){
+
+	return minimum(SCREEN_WIDTH/map->column,SCREEN_HEIGHT/map->row) - 1;
+}
+
 unsigned getFPS(void)
 {
 	return FPS;
 }
+

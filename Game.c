@@ -4,8 +4,6 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-
-
 bool run(void* parameters)
 {
 	SDL_Event event;
@@ -29,7 +27,6 @@ bool run(void* parameters)
 		            case SDLK_RETURN:
 		           	
 		           	break;
-	                
 				}     				
 		}
 	}
