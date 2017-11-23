@@ -9,20 +9,18 @@
 
 #define YELLOW SDL_MapRGB(screenSurface->format,0xFF,0xFF,0x00)
 
-void start();
+void start(char* fileName);
 void draw();
 void update();
 void end();
 
-ptrPlayer player;
+ptrPlayer player = NULL;
+ptrMap map = NULL;
+SDL_Window* window = NULL;
+bool isRunning = true;
 
 int main(int argc, char *argv[])
 {
-	ptrMap map = NULL;
-	SDL_Window* window = NULL;
-	bool isRunning = true;
-    unsigned long long start;
-
 	if(SDL_Init(SDL_INIT_VIDEO))
 	{
 		puts("Failed to initialize SDL");
@@ -41,19 +39,11 @@ int main(int argc, char *argv[])
 		screenSurface = SDL_GetWindowSurface(window);
 	}
 
-	map = createMapFromFile(argv[1]);
-	resizeScreen(map);
-	printMap(map);
-
-	Vector4 pos;
-	pos.l = 2;
-	pos.c = 0;
-	pos.w = getRectSize(map);
-	pos.h = getRectSize(map);
-	Vector2 diff = getMapStartPos(map);
-	player = newPlayer(Prey, pos, YELLOW, 10, diff);
+	start(argv[1]);
+	
 
 
+	unsigned long long start;
 	while(isRunning)
 	{
 		start = SDL_GetTicks();
@@ -62,8 +52,8 @@ int main(int argc, char *argv[])
 
     	SDL_UpdateWindowSurface(window);
 
-    	draw(player);
     	update();
+    	draw();
 
 		if((1000u/getFPS()) > (SDL_GetTicks() - start))
 			SDL_Delay(10);
@@ -76,8 +66,19 @@ int main(int argc, char *argv[])
 	return 0;
 }
 
-void start(){
+void start(char* fileName){
+	
+	map = createMapFromFile(fileName);
+	resizeScreen(map);
+	printMap(map);
 
+	Vector4 pos;
+	pos.l = 2;
+	pos.c = 0;
+	pos.h = getRectSize(map);
+	pos.w = getRectSize(map);
+	Vector2 diff = getMapStartPos(map);
+	player = newPlayer(Prey, pos, YELLOW, 10, diff);
 }
 
 void draw(){
@@ -85,7 +86,7 @@ void draw(){
 }
 
 void update(){
-	
+	update_player(player, map);
 }
 
 void end(ptrMap map, SDL_Window* window){

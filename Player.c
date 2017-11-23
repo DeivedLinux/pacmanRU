@@ -31,7 +31,7 @@ void draw_player(ptrPlayer p)
 	SDL_FillRect(screenSurface, &rect, p->color);
 }
 
-void update_player(ptrPlayer p)
-{
-
+void update_player(ptrPlayer p, ptrMap map)
+{	
+	p->pos.c += p->pos.w / p->speed; 
 }

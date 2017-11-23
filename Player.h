@@ -3,6 +3,7 @@
 
 #include <SDL2/SDL.h>
 #include "Vector.h"
+#include "Utility.h"
 
 typedef enum 
 {
@@ -25,6 +26,6 @@ typedef struct Player Player;
 
 ptrPlayer newPlayer(TypeCharacter type, Vector4 pos, Uint32 color, int speed, Vector2 diff);
 void draw_player(ptrPlayer p);
-void update_player(ptrPlayer p);
+void update_player(ptrPlayer p, ptrMap map);
 
 #endif
