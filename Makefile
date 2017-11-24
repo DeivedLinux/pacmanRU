@@ -1,4 +1,4 @@
-OBJS = main.c Utility.c Screen.c Game.c Player.c
+OBJS = Main.c Screen.c GameManager.c Map.c
 CC = gcc
 INCLUDE_PATHS = -IC:\mingw_dev_lib\include
 LIBRARY_PATHS = -LC:\mingw_dev_lib\lib

@@ -1,20 +1,15 @@
 #ifndef SCREEN_H_
 #define SCREEN_H_
 
-#include <stdbool.h>
 #include <SDL2/SDL.h>
-#include "Utility.h"
-#include "Vector.h"
 
-void resizeScreen(ptrMap map);
+static const unsigned int SCREEN_WIDTH = 800;
+static const unsigned int SCREEN_HEIGHT = 600;
+extern SDL_Surface* screenSurface;
+static unsigned int FPS = 60;
+
 int getWidthMax(void);
 int getHeightMax(void);
 unsigned getFPS(void);
-int getRectSize(ptrMap map);
-Vector2 getMapStartPos(ptrMap map);
-
-
-static int rectSize = 0;
-extern SDL_Surface* screenSurface;
 
 #endif

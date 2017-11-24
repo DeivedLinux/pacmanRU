@@ -1,55 +1,75 @@
-#include <stdio.h>
-#include <stdlib.h>
-#include "Utility.h"
 #include <SDL2/SDL.h>
+#include <SDL2/SDL_image.h>
 #include <stdbool.h>
 #include "Screen.h"
-#include "Game.h"
+#include "GameManager.h"
 #include "Player.h"
+#include "Map.h"
+#include "Vector.h"
 
-#define YELLOW SDL_MapRGB(screenSurface->format,0xFF,0xFF,0x00)
-
-void start(char* fileName);
-void draw();
-void update();
-void end();
-
-ptrPlayer player = NULL;
-ptrMap map = NULL;
 SDL_Window* window = NULL;
 bool isRunning = true;
+ptrMap map = NULL;
 
-int main(int argc, char *argv[])
-{
-	if(SDL_Init(SDL_INIT_VIDEO))
-	{
-		puts("Failed to initialize SDL");
-		exit(1);
+int init();
+void end();
+void draw();
+void update();
+void sdl_update();
+
+#define BLACK SDL_MapRGB(screenSurface->format,0x01,0x40,0x90)
+
+int main(int argc, char* argv[]){	
+
+	if(!init()){
+		printf("Failed to initialize!\n");
+		return 0;
 	}
-	window = SDL_CreateWindow("Pacman",SDL_WINDOWPOS_UNDEFINED, 
-                               SDL_WINDOWPOS_UNDEFINED,getWidthMax(), 
-                               getHeightMax(),SDL_WINDOW_SHOWN); 
 
-	if(window == NULL)
+	map = createMapFromFile(argv[1]);
+	resizeMap(map);
+
+	sdl_update();
+
+	end();
+
+	return 0;
+}
+
+int init(){
+	int sucess = 1;
+
+	if( SDL_Init( SDL_INIT_VIDEO ) < 0 )
 	{
-		printf("Error %i\n",SDL_GetError());
+		printf( "SDL could not initialize! SDL_Error: %s\n", SDL_GetError() );
+		sucess = 0;
 	}
 	else
 	{
-		screenSurface = SDL_GetWindowSurface(window);
+		window = SDL_CreateWindow("Pacman", SDL_WINDOWPOS_UNDEFINED,
+									SDL_WINDOWPOS_UNDEFINED, getWidthMax(), 
+									getHeightMax(), SDL_WINDOW_SHOWN );
+		if( window == NULL )
+		{
+			printf( "Window could not be created! SDL_Error: %s\n", SDL_GetError() );
+			sucess = 0;
+		}
 	}
 
-	start(argv[1]);
-	
+	screenSurface = SDL_GetWindowSurface( window );
+	SDL_FillRect( screenSurface, NULL, SDL_MapRGB( screenSurface->format, 0x00, 0x00, 0x00 ) );
+	SDL_UpdateWindowSurface( window );
 
+	return sucess;
+}
+
+void sdl_update(){
 
 	unsigned long long start;
 	while(isRunning)
 	{
 		start = SDL_GetTicks();
-
 		isRunning = run(NULL); // null por enquanto!
-
     	SDL_UpdateWindowSurface(window);
 
     	update();
@@ -59,39 +79,31 @@ int main(int argc, char *argv[])
 			SDL_Delay(10);
     		//SDL_Delay((1000u/getFPS()) - (SDL_GetTicks() - start));
 	}
-
-	end(map, window);
-	
-
-	return 0;
-}
-
-void start(char* fileName){
-	
-	map = createMapFromFile(fileName);
-	resizeScreen(map);
-	printMap(map);
-
-	Vector4 pos;
-	pos.l = 2;
-	pos.c = 0;
-	pos.h = getRectSize(map);
-	pos.w = getRectSize(map);
-	Vector2 diff = getMapStartPos(map);
-	player = newPlayer(Prey, pos, YELLOW, 10, diff);
 }
 
 void draw(){
-	draw_player(player);
+
+	SDL_Rect rect;
+	rect.w = map->rectSize;
+	rect.h = map->rectSize;
+	for(int i = 0; i < map->rows; i++){
+		for(int j = 0; j < map->columns; j++){
+
+			rect.x = j * rect.w + j + map->start_x;
+			rect.y = i * rect.h + i + map->start_y;
+			if(map->matrix[i][j] == 1)
+				SDL_FillRect(screenSurface, &rect,BLACK);
+		}
+	}
 }
 
 void update(){
-	update_player(player, map);
+
 }
 
-void end(ptrMap map, SDL_Window* window){
+void end(){
 
-	destroyMap(map);
+	//destroyMap(map);
 	SDL_FreeSurface(screenSurface);
 	SDL_DestroyWindow(window);
 	SDL_Quit();
